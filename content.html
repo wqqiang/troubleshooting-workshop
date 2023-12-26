@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>AWS Support Troubleshooting Workshop</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+<link rel="icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+<body>
+<!-- This is a modified version of W3 School's Kitchensink template: https://www.w3schools.com/w3css/tryw3css_templates_black.htm -->
+
+<!-- Header -->
+<header class="w3-container w3-theme w3-padding" id="myHeader">
+  <div class="w3-center">
+  <h4>AWS Support Troubleshooting Workshop</h4>
+  <h1 class="w3-xxxlarge w3-animate-bottom">Web Server Diagnostics</h1>
+    <div class="w3-padding-32">
+      <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('id01').style.display='block'" style="font-weight:900;">HELP</button>
+    </div>
+  </div>
+</header>
+
+<!-- Modal -->
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('id01').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>Please follow the Workshop Page for step-by-step guidance, hints and tips.</h4>
+        <h5>Diagnostic information:</h5>
+      </header>
+      <div class="w3-padding">
+        <p>The tests on this webpage indicate which dependencies are functioning correctly within the webserver code.</p>
+        <p>Your task is to find out why some are failing and to fix them, without changing code on the webserver.</p>
+      </div>
+      <footer class="w3-container w3-theme-l1">
+        <p>Good Luck!</p>
+      </footer>
+    </div>
+</div>
+
+<div id="extTest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('extTest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>External Dependency Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test performs an HTTPS (port 443) GET request to 1.1.1.1.</p>
+      </div>
+    </div>
+</div>
+
+<div id="ssmTest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('ssmTest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>AWS Systems Manager (SSM) Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test calls SSM with the API call GetParameter to obtain configuration. It requires the appropriate network routing and IAM permissions.</p>
+      </div>
+    </div>
+</div>
+
+<div id="ddbTest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('ddbTest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>Amazon DynamoDB Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test calls DynamoDB using the GetItem API to retrieve data from a table. It requires the appropriate network routing and IAM permissions for the table, the VPC Endpoint and the Instance role.</p>
+      </div>
+    </div>
+</div>
+
+
+<div id="s3Test" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('s3Test').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>Amazon Simple Storage Service (S3) Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test attempts to retrieve an object from S3: s3://{BucketNameString}/artifacts/three-tier-webstack/s3_get_green_checkmark.png. This test requires the appropriate network configuration (security group rules, network ACLs, routing) as well as the correct IAM permissions for the bucket, the VPC Endpoint and the instance role.</p>
+      </div>
+    </div>
+</div>
+
+
+<div id="ec2mdTest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('ec2mdTest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>EC2 Instance Metadata Service Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test calls the EC2 Instance Metadata service to obtain a number of details: availability zone, instance ID, instance type, private hostname and private IP address. See the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">documentation page</a> for more details.</p>
+      </div>
+    </div>
+</div>
+
+<div id="dnsTest" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <header class="w3-container w3-theme-l1">
+        <span onclick="document.getElementById('dnsTest').style.display='none'"
+        class="w3-button w3-display-topright">×</span>
+        <h4>Amazon Route53 VPC DNS Test</h4>
+      </header>
+      <div class="w3-padding">
+        <p>This test attempts to use the within-VPC Amazon Route 53 Resolver server to resolve the DNS record "aws.amazon.com". This test requires no connectivity outside of the VPC. See the <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#AmazonDNS">documentation page</a> for more details.</p>
+      </div>
+    </div>
+</div>
+
+<div class="w3-row-padding w3-center w3-margin-top">
+<div class="w3-third">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://raw.githubusercontent.com/iliucoco/troubleshooting-workshop/main/dynamodb_logo.png" alt="Amazon Dynamo DB Logo" style="width:20%"></h3><br>
+  <h3>Amazon Dynamo DB Test</h3>
+  <p>{DDBTestString}</p>
+  <p>Time to run test: {DDBTime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('ddbTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+
+<div class="w3-third">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://raw.githubusercontent.com/iliucoco/troubleshooting-workshop/main/s3_logo.png" alt="Amazon Simple Storage Service (S3) Logo" style="width:20%"></h3><br>
+  <h3>Amazon Simple Storage Service (S3) Test</h3>
+  <p>{S3TestString}</p>
+  <p>Time to run test: {S3Time} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('s3Test').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+
+
+<div class="w3-third">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://raw.githubusercontent.com/iliucoco/troubleshooting-workshop/main/external_dependency_logo.png" alt="External Dependency Test Logo" style="width:20%"></h3><br>
+  <h3>External Dependency (1.1.1.1) Test</h3>
+  <p>{ExtServerTestString}</p>
+  <p>Time to run test: {ExtGetTime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('extTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+</div>
+
+<div class="w3-row-padding w3-center w3-margin-top">
+<div class="w3-third">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://raw.githubusercontent.com/iliucoco/troubleshooting-workshop/main/metadata_logo.png" alt="Amazon Elastic Compute Cloud Logo" style="width:20%"></h3><br>
+  <h3>Amazon EC2 Instance Meta-data Test</h3>
+  <p>{MetadataTestString}</p>
+  <p>Time to run test: {MetaDataTime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('ec2mdTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+
+<div class="w3-third">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://raw.githubusercontent.com/iliucoco/troubleshooting-workshop/main/route53_logo.png" alt="Amazon Route 53 Logo" style="width:20%"></h3><br>
+  <h3>Amazon Route53 VPC DNS Test</h3>
+  <p>{DNSTestString}</p>
+  <p>Time to run test: {DNSGetTime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('dnsTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+
+<div class="w3-third">
+  <div class="w3-card w3-container" style="min-height:460px">
+  <h3><img src="https://raw.githubusercontent.com/iliucoco/troubleshooting-workshop/main/systems_manager_logo.png" alt="AWS Systems Manager Logo" style="width:20%"></h3><br>
+  <h3>AWS Systems Manager (SSM) Test</h3>
+  <p>{SSMTestString}</p>
+  <p>Time to run test: {SSMTime} ms</p>
+  <p><br></p>
+  <p><button class="w3-btn w3-large w3-dark-grey w3-hover-light-grey" onclick="document.getElementById('ssmTest').style.display='block'" style="font-weight:900;">DETAILS</button></p>
+  <p></p>
+  </div>
+</div>
+</div>
+
+</body>
+</html>
